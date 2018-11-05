@@ -66,29 +66,31 @@ function showProducts() {
                             }
                         }
                         if (chosenItem.stock_quantity >= parseInt(quantity)) {
-                            console.log("Congrats, we're still in stock");
-                            // connection.query("UPDATE products SET ? WHERE ?",
-                            // [
-                            //     {}
+                            console.log("Congrats, we're still in stock: ");
+                            var newQuantity = chosenItem.stock_quantity - quantity;
+                            console.log("This is the new quantity of the product you chose: " + newQuantity);
 
-
-
-
-
-
-                            // ]
+                            connection.query("UPDATE products SET ? WHERE ?",
+                            [
+                                {
+                                 stock_quantity: newQuantity
+                                },
+                                {
+                                product_name: chosenItem.product_name
+                                }
+                            ],
+                            function(error) {
+                                if(error) throw err;
+                                console.log("Quantity updated in database: " + chosenItem.product_name + " quantity =  " + newQuantity);
+                                console.log("_____________________________________")
+                                showProducts();
+                            }
                             
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            // )
+                            );
                             
                         } else {
-                            console.log("We are out of this item");
+                            console.log("We have an insufficient quantity on the shelves");
+                            showProducts();
                         }
 
                     })
