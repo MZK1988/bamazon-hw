@@ -68,6 +68,7 @@ function showProducts() {
                         if (chosenItem.stock_quantity >= parseInt(quantity)) {
                             console.log("Congrats, we're still in stock: ");
                             var newQuantity = chosenItem.stock_quantity - quantity;
+                            var cost = chosenItem.price * quantity;
                             console.log("This is the new quantity of the product you chose: " + newQuantity);
 
                             connection.query("UPDATE products SET ? WHERE ?",
@@ -82,7 +83,8 @@ function showProducts() {
                             function(error) {
                                 if(error) throw err;
                                 console.log("Quantity updated in database: " + chosenItem.product_name + " quantity =  " + newQuantity);
-                                console.log("_____________________________________")
+                                console.log("<**> You spent $" + cost + " <**>");
+                                console.log("_____________________________________");
                                 showProducts();
                             }
                             
